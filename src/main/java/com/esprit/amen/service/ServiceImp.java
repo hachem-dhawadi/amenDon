@@ -66,12 +66,17 @@ public class ServiceImp implements IService {
 
     @Override
     public Reclamation addReclamation(Reclamation reclamation) {
-        // Ensure the Don exists
-        Don don = donRepository.findById(reclamation.getDon().getId())
-                .orElseThrow(() -> new RuntimeException("Don not found with id: " + reclamation.getDon().getId()));
-        reclamation.setDon(don); // Set the Don for the Reclamation
+        if (reclamation.getDon() != null && reclamation.getDon().getId() != null) {
+            Don don = donRepository.findById(reclamation.getDon().getId())
+                    .orElseThrow(() -> new RuntimeException("Don not found with id: " + reclamation.getDon().getId()));
+            reclamation.setDon(don);
+        } else {
+            reclamation.setDon(null); // Explicitly allow null Don
+        }
+
         return reclamationRepo.save(reclamation);
     }
+
 
     @Override
     public Reclamation updateReclamation(Long id, Reclamation reclamation) {

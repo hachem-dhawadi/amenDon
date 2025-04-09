@@ -24,6 +24,6 @@ public class Reclamation {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "don_id", nullable = false)
+    @JoinColumn(name = "don_id", nullable = true) // Allow null
     private Don don;
 }
